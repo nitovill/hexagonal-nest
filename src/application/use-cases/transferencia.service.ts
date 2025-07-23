@@ -1,33 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Transferencia } from '../../infrastructure/database/entities/transferencia.entity';
-import { Empresa } from '../../infrastructure/database/entities/empresa.entity';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { ITransferenciaRepository } from '../../domain/transferencia.repository';
+import { IEmpresaRepository } from '../../domain/empresa.repository';
+import { Transferencia } from '../../domain/transferencia.entity';
 import { CreateTransferenciaDto } from '../../infrastructure/controllers/dto/create-transferencia.dto';
 
 @Injectable()
 export class TransferenciaService {
   constructor(
-    @InjectRepository(Transferencia)
-    private readonly transferenciaRepository: Repository<Transferencia>,
-    @InjectRepository(Empresa)
-    private readonly empresaRepository: Repository<Empresa>,
+    @Inject('ITransferenciaRepository')
+    private readonly transferenciaRepository: ITransferenciaRepository,
+    @Inject('IEmpresaRepository')
+    private readonly empresaRepository: IEmpresaRepository,
   ) {}
 
   async create(dto: CreateTransferenciaDto): Promise<Transferencia> {
-    const empresa = await this.empresaRepository.findOne({
-      where: { id: dto.empresa_id },
-    });
+    const empresa = await this.empresaRepository.findById(dto.empresa_id);
     if (!empresa) {
       throw new NotFoundException('Empresa not found');
     }
-    const transferencia = this.transferenciaRepository.create({
-      empresa,
-      monto: dto.monto,
-      fecha_transferencia: dto.fecha_transferencia
-        ? new Date(dto.fecha_transferencia)
-        : new Date(),
-    });
-    return this.transferenciaRepository.save(transferencia);
+    const transferencia = new Transferencia();
+    transferencia.empresa_id = dto.empresa_id;
+    transferencia.monto = dto.monto;
+    transferencia.fecha_transferencia = dto.fecha_transferencia
+      ? new Date(dto.fecha_transferencia)
+      : new Date();
+    return this.transferenciaRepository.create(transferencia);
   }
 }

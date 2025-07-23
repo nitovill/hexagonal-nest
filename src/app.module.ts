@@ -9,6 +9,8 @@ import { EmpresaController } from './infrastructure/controllers/empresa.controll
 import { EmpresaService } from './application/use-cases/empresa.service';
 import { TransferenciaController } from './infrastructure/controllers/transferencia.controller';
 import { TransferenciaService } from './application/use-cases/transferencia.service';
+import { EmpresaRepository } from './infrastructure/database/repositories/empresa.repository';
+import { TransferenciaRepository } from './infrastructure/database/repositories/transferencia.repository';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { TransferenciaService } from './application/use-cases/transferencia.serv
         port: parseInt(config.get('DB_PORT', '5432'), 10),
         username: config.get('DB_USERNAME', 'postgres'),
         password: config.get('DB_PASSWORD', 'postgres'),
-        database: config.get('DB_DATABASE', 'nest'),
+        database: config.get('DB_DATABASE', 'nest-hexagonal'),
         entities: [Empresa, Transferencia],
         synchronize: true,
       }),
@@ -30,6 +32,14 @@ import { TransferenciaService } from './application/use-cases/transferencia.serv
     TypeOrmModule.forFeature([Empresa, Transferencia]),
   ],
   controllers: [AppController, EmpresaController, TransferenciaController],
-  providers: [AppService, EmpresaService, TransferenciaService],
+  providers: [
+    AppService,
+    EmpresaService,
+    TransferenciaService,
+    EmpresaRepository,
+    TransferenciaRepository,
+    { provide: 'IEmpresaRepository', useClass: EmpresaRepository },
+    { provide: 'ITransferenciaRepository', useClass: TransferenciaRepository },
+  ],
 })
 export class AppModule {}

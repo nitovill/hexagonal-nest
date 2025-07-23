@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { CreateEmpresaDto } from './dto/create-empresa.dto';
 import { EmpresaService } from '../../application/use-cases/empresa.service';
-import { Empresa } from '../../infrastructure/database/entities/empresa.entity';
+import { Empresa } from 'src/domain/empresa.entity';
 
 @Controller('empresa')
 export class EmpresaController {
@@ -13,12 +13,12 @@ export class EmpresaController {
   }
 
   @Get('last-month')
-  async findLastMonth() {
+  async findLastMonth(): Promise<Empresa[]> {
     return this.empresaService.findLastMonth();
   }
 
   @Get('with-transferencias-last-month')
-  async findWithTransferenciasLastMonth() {
+  async findWithTransferenciasLastMonth(): Promise<Empresa[]> {
     return this.empresaService.findWithTransferenciasLastMonth();
   }
 }
