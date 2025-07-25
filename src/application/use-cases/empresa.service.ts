@@ -26,4 +26,8 @@ export class EmpresaService {
   async findWithTransferenciasLastMonth(): Promise<Empresa[]> {
     return this.empresaRepository.findWithTransferenciasLastMonth();
   }
+
+  async softDeleteEmpresa(id: string): Promise<void> {
+    await this.empresaRepository.softDelete(id);
+  }
 }

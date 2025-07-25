@@ -12,6 +12,9 @@ export class Empresa {
   @Column({ type: 'timestamp' })
   fecha_adhesion: Date;
 
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
   @OneToMany(() => Transferencia, (transferencia) => transferencia.empresa)
   transferencias: Transferencia[];
 }

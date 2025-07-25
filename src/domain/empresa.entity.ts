@@ -2,6 +2,7 @@ export class Empresa {
   id: string;
   nombre: string;
   fecha_adhesion: Date;
+  isActive: boolean;
   transferencias?: Transferencia[];
 }
 

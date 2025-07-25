@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param } from '@nestjs/common';
 import { CreateEmpresaDto } from './dto/create-empresa.dto';
 import { EmpresaService } from '../../application/use-cases/empresa.service';
 import { Empresa } from 'src/domain/empresa.entity';
@@ -20,5 +20,10 @@ export class EmpresaController {
   @Get('with-transferencias-last-month')
   async findWithTransferenciasLastMonth(): Promise<Empresa[]> {
     return this.empresaService.findWithTransferenciasLastMonth();
+  }
+
+  @Delete(':id')
+  async softDelete(@Param('id') id: string): Promise<void> {
+    await this.empresaService.softDeleteEmpresa(id);
   }
 }

@@ -5,4 +5,5 @@ export interface IEmpresaRepository {
   findLastMonth(): Promise<Empresa[]>;
   findWithTransferenciasLastMonth(): Promise<Empresa[]>;
   findById(id: string): Promise<Empresa | null>;
+  softDelete(id: string): Promise<void>;
 }

@@ -17,6 +17,7 @@ export class EmpresaRepository implements IEmpresaRepository {
       id: empresa.id,
       nombre: empresa.nombre,
       fecha_adhesion: empresa.fecha_adhesion,
+      isActive: empresa.isActive,
       transferencias:
         empresa.transferencias?.map((t) => ({
           id: t.id,
@@ -32,6 +33,7 @@ export class EmpresaRepository implements IEmpresaRepository {
     orm.id = empresa.id;
     orm.nombre = empresa.nombre;
     orm.fecha_adhesion = empresa.fecha_adhesion;
+    orm.isActive = empresa.isActive;
     // transferencias se ignora en create/update
     return orm;
   }
@@ -80,5 +82,9 @@ export class EmpresaRepository implements IEmpresaRepository {
       relations: ['transferencias'],
     });
     return empresa ? this.toDomain(empresa) : null;
+  }
+
+  async softDelete(id: string): Promise<void> {
+    await this.empresaRepo.update({ id }, { isActive: false });
   }
 }
