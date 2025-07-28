@@ -4,6 +4,7 @@ import { Repository, MoreThanOrEqual, IsNull } from 'typeorm';
 import { Company as CompanyORM } from './company.entity';
 import { ICompanyRepository } from '../../domain/company.repository';
 import { Company as CompanyDomain } from '../../domain/company.entity';
+import { DateUtils } from '../../../common/utils/date.utils';
 
 @Injectable()
 export class CompanyRepository implements ICompanyRepository {
@@ -45,15 +46,13 @@ export class CompanyRepository implements ICompanyRepository {
   }
 
   async findLastMonth(): Promise<CompanyDomain[]> {
-    const now = new Date();
-    const lastMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      now.getDate(),
-    );
+    const oneMonthAgo = DateUtils.getStartOfLastMonth();
 
     const companies = await this.companyRepo.find({
-      where: { adhesion_date: MoreThanOrEqual(lastMonth), deletedAt: IsNull() },
+      where: {
+        adhesion_date: MoreThanOrEqual(oneMonthAgo),
+        deletedAt: IsNull(),
+      },
       order: { adhesion_date: 'DESC' },
       relations: ['transfers'],
     });
@@ -62,16 +61,11 @@ export class CompanyRepository implements ICompanyRepository {
   }
 
   async findWithTransfersLastMonth(): Promise<CompanyDomain[]> {
-    const now = new Date();
-    const lastMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      now.getDate(),
-    );
+    const oneMonthAgo = DateUtils.getStartOfLastMonth();
     const companies = await this.companyRepo
       .createQueryBuilder('company')
       .innerJoinAndSelect('company.transfers', 'transfer')
-      .where('transfer.transfer_date >= :lastMonth', { lastMonth })
+      .where('transfer.transfer_date >= :lastMonth', { lastMonth: oneMonthAgo })
       .andWhere('company.deletedAt IS NULL')
       .getMany();
     return companies.map((comp) => this.toDomain(comp));
