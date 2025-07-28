@@ -16,7 +16,9 @@ export class TransferService {
   async create(dto: CreateTransferDto): Promise<Transfer> {
     const company = await this.companyRepository.findById(dto.company_id);
     if (!company) {
-      throw new NotFoundException('Company not found');
+      throw new NotFoundException(
+        `Company with ID: '${dto.company_id}' not found`,
+      );
     }
     const transfer = new Transfer();
     transfer.company_id = dto.company_id;

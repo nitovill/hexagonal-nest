@@ -78,7 +78,7 @@ export class CompanyRepository implements ICompanyRepository {
 
   async findById(id: string): Promise<CompanyDomain | null> {
     const company = await this.companyRepo.findOne({
-      where: { id },
+      where: { id, isActive: true },
     });
     return company ? this.toDomain(company) : null;
   }
