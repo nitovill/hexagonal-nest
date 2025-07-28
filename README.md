@@ -29,6 +29,13 @@ Modo desarrollo:
 npm run start:dev
 ```
 
+## Documentación de la API (Swagger)
+
+La aplicación incluye documentación automática de la API usando Swagger. Una vez que la aplicación esté ejecutándose, puedes acceder a:
+
+- **Swagger UI**: http://localhost:3000/api
+- **API JSON**: http://localhost:3000/api-json
+
 ## Endpoints de la API
 
 ### Company
