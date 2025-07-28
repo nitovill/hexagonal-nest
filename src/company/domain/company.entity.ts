@@ -1,4 +1,4 @@
-import { Transfer } from './transfer.entity';
+import { Transfer } from '../../transfer/domain/transfer.entity';
 
 export class Company {
   id: string;

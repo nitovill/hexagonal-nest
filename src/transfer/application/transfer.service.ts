@@ -4,10 +4,10 @@ import {
   Inject,
   BadRequestException,
 } from '@nestjs/common';
-import { ITransferRepository } from '../../domain/transfer.repository';
-import { ICompanyRepository } from '../../domain/company.repository';
-import { Transfer } from '../../domain/transfer.entity';
-import { CreateTransferDto } from '../../infrastructure/controllers/dto/create-transfer.dto';
+import { ITransferRepository } from '../domain/transfer.repository';
+import { ICompanyRepository } from '../../company/domain/company.repository';
+import { Transfer } from '../domain/transfer.entity';
+import { CreateTransferDto } from '../infrastructure/dto/create-transfer.dto';
 
 @Injectable()
 export class TransferService {

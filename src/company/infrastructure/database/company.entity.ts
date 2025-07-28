@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Transfer } from './transfer.entity';
+import { Transfer } from '../../../transfer/infrastructure/database/transfer.entity';
 
 @Entity('company')
 export class Company {

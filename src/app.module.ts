@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Company } from './infrastructure/database/entities/company.entity';
-import { Transfer } from './infrastructure/database/entities/transfer.entity';
-import { CompanyController } from './infrastructure/controllers/company.controller';
-import { CompanyService } from './application/use-cases/company.service';
-import { TransferController } from './infrastructure/controllers/transfer.controller';
-import { TransferService } from './application/use-cases/transfer.service';
-import { CompanyRepository } from './infrastructure/database/repositories/company.repository';
-import { TransferRepository } from './infrastructure/database/repositories/transfer.repository';
+import { Company } from './company/infrastructure/database/company.entity';
+import { Transfer } from './transfer/infrastructure/database/transfer.entity';
+import { CompanyController } from './company/infrastructure/company.controller';
+import { CompanyService } from './company/application/company.service';
+import { TransferController } from './transfer/infrastructure/transfer.controller';
+import { TransferService } from './transfer/application/transfer.service';
+import { CompanyRepository } from './company/infrastructure/database/company.repository';
+import { TransferRepository } from './transfer/infrastructure/database/transfer.repository';
 
 @Module({
   imports: [

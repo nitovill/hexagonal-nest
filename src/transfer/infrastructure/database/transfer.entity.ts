@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Company } from './company.entity';
+import { Company } from '../../../company/infrastructure/database/company.entity';
 
 @Entity('transfer')
 export class Transfer {

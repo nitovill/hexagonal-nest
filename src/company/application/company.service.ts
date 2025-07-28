@@ -4,9 +4,9 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { ICompanyRepository } from '../../domain/company.repository';
-import { Company } from '../../domain/company.entity';
-import { CreateCompanyDto } from '../../infrastructure/controllers/dto/create-company.dto';
+import { ICompanyRepository } from '../domain/company.repository';
+import { Company } from '../domain/company.entity';
+import { CreateCompanyDto } from '../infrastructure/dto/create-company.dto';
 
 @Injectable()
 export class CompanyService {

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Transfer as TransferORM } from '../entities/transfer.entity';
-import { Company as CompanyORM } from '../entities/company.entity';
-import { ITransferRepository } from '../../../domain/transfer.repository';
-import { Transfer as TransferDomain } from '../../../domain/transfer.entity';
+import { Transfer as TransferORM } from './transfer.entity';
+import { Company as CompanyORM } from '../../../company/infrastructure/database/company.entity';
+import { ITransferRepository } from '../../domain/transfer.repository';
+import { Transfer as TransferDomain } from '../../domain/transfer.entity';
 
 @Injectable()
 export class TransferRepository implements ITransferRepository {
@@ -24,9 +24,7 @@ export class TransferRepository implements ITransferRepository {
     };
   }
 
-  private async toOrm(
-    transfer: TransferDomain,
-  ): Promise<TransferORM> {
+  private async toOrm(transfer: TransferDomain): Promise<TransferORM> {
     const orm = new TransferORM();
     orm.id = transfer.id;
     orm.amount = transfer.amount;
@@ -41,9 +39,7 @@ export class TransferRepository implements ITransferRepository {
     return orm;
   }
 
-  async create(
-    transfer: TransferDomain,
-  ): Promise<TransferDomain> {
+  async create(transfer: TransferDomain): Promise<TransferDomain> {
     const orm = await this.toOrm(transfer);
     const saved = await this.transferRepo.save(orm);
     return this.toDomain(saved);

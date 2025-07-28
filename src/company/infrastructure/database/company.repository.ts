@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual } from 'typeorm';
-import { Company as CompanyORM } from '../entities/company.entity';
-import { ICompanyRepository } from '../../../domain/company.repository';
-import { Company as CompanyDomain } from '../../../domain/company.entity';
+import { Company as CompanyORM } from './company.entity';
+import { ICompanyRepository } from '../../domain/company.repository';
+import { Company as CompanyDomain } from '../../domain/company.entity';
 
 @Injectable()
 export class CompanyRepository implements ICompanyRepository {
