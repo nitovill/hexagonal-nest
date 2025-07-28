@@ -20,6 +20,15 @@ export class CompanyService {
       throw new BadRequestException('Company name cannot be empty');
     }
 
+    if (dto.adhesion_date) {
+      const adhesionDate = new Date(dto.adhesion_date);
+      const currentDate = new Date();
+
+      if (adhesionDate > currentDate) {
+        throw new BadRequestException('Adhesion date cannot be in the future');
+      }
+    }
+
     const existingCompany = await this.companyRepository.findByName(dto.name);
     if (existingCompany) {
       throw new ConflictException(
