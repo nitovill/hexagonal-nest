@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { Empresa } from './infrastructure/database/entities/empresa.entity';
 import { Transferencia } from './infrastructure/database/entities/transferencia.entity';
 import { EmpresaController } from './infrastructure/controllers/empresa.controller';
@@ -31,9 +29,8 @@ import { TransferenciaRepository } from './infrastructure/database/repositories/
     }),
     TypeOrmModule.forFeature([Empresa, Transferencia]),
   ],
-  controllers: [AppController, EmpresaController, TransferenciaController],
+  controllers: [EmpresaController, TransferenciaController],
   providers: [
-    AppService,
     EmpresaService,
     TransferenciaService,
     EmpresaRepository,
