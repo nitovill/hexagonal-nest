@@ -25,6 +25,15 @@ export class TransferService {
       );
     }
 
+    const currentDate = new Date();
+    const transferDate = dto.transfer_date
+      ? new Date(dto.transfer_date)
+      : currentDate;
+
+    if (dto.transfer_date && transferDate > currentDate) {
+      throw new BadRequestException('Transfer date cannot be in the future');
+    }
+
     const company = await this.companyRepository.findById(dto.company_id);
     if (!company) {
       throw new NotFoundException(
@@ -34,9 +43,7 @@ export class TransferService {
     const transfer = new Transfer();
     transfer.company_id = dto.company_id;
     transfer.amount = dto.amount;
-    transfer.transfer_date = dto.transfer_date
-      ? new Date(dto.transfer_date)
-      : new Date();
+    transfer.transfer_date = transferDate;
     return this.transferRepository.create(transfer);
   }
 }
