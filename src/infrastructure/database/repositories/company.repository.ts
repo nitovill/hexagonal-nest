@@ -79,7 +79,13 @@ export class CompanyRepository implements ICompanyRepository {
   async findById(id: string): Promise<CompanyDomain | null> {
     const company = await this.companyRepo.findOne({
       where: { id },
-      relations: ['transfers'],
+    });
+    return company ? this.toDomain(company) : null;
+  }
+
+  async findByName(name: string): Promise<CompanyDomain | null> {
+    const company = await this.companyRepo.findOne({
+      where: { name },
     });
     return company ? this.toDomain(company) : null;
   }

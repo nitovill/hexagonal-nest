@@ -5,5 +5,6 @@ export interface ICompanyRepository {
   findLastMonth(): Promise<Company[]>;
   findWithTransfersLastMonth(): Promise<Company[]>;
   findById(id: string): Promise<Company | null>;
+  findByName(name: string): Promise<Company | null>;
   softDelete(id: string): Promise<void>;
 }
