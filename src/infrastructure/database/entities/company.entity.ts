@@ -1,20 +1,20 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Transferencia } from './transferencia.entity';
+import { Transfer } from './transfer.entity';
 
-@Entity('empresa')
-export class Empresa {
+@Entity('company')
+export class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 255 })
-  nombre: string;
+  name: string;
 
   @Column({ type: 'timestamp' })
-  fecha_adhesion: Date;
+  adhesion_date: Date;
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @OneToMany(() => Transferencia, (transferencia) => transferencia.empresa)
-  transferencias: Transferencia[];
+  @OneToMany(() => Transfer, (transfer) => transfer.company)
+  transfers: Transfer[];
 }

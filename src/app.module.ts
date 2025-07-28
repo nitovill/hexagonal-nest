@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Empresa } from './infrastructure/database/entities/empresa.entity';
-import { Transferencia } from './infrastructure/database/entities/transferencia.entity';
-import { EmpresaController } from './infrastructure/controllers/empresa.controller';
-import { EmpresaService } from './application/use-cases/empresa.service';
-import { TransferenciaController } from './infrastructure/controllers/transferencia.controller';
-import { TransferenciaService } from './application/use-cases/transferencia.service';
-import { EmpresaRepository } from './infrastructure/database/repositories/empresa.repository';
-import { TransferenciaRepository } from './infrastructure/database/repositories/transferencia.repository';
+import { Company } from './infrastructure/database/entities/company.entity';
+import { Transfer } from './infrastructure/database/entities/transfer.entity';
+import { CompanyController } from './infrastructure/controllers/company.controller';
+import { CompanyService } from './application/use-cases/company.service';
+import { TransferController } from './infrastructure/controllers/transfer.controller';
+import { TransferService } from './application/use-cases/transfer.service';
+import { CompanyRepository } from './infrastructure/database/repositories/company.repository';
+import { TransferRepository } from './infrastructure/database/repositories/transfer.repository';
 
 @Module({
   imports: [
@@ -23,20 +23,20 @@ import { TransferenciaRepository } from './infrastructure/database/repositories/
         username: config.get('DB_USERNAME', 'postgres'),
         password: config.get('DB_PASSWORD', 'postgres'),
         database: config.get('DB_DATABASE', 'nest-hexagonal'),
-        entities: [Empresa, Transferencia],
+        entities: [Company, Transfer],
         synchronize: true,
       }),
     }),
-    TypeOrmModule.forFeature([Empresa, Transferencia]),
+    TypeOrmModule.forFeature([Company, Transfer]),
   ],
-  controllers: [EmpresaController, TransferenciaController],
+  controllers: [CompanyController, TransferController],
   providers: [
-    EmpresaService,
-    TransferenciaService,
-    EmpresaRepository,
-    TransferenciaRepository,
-    { provide: 'IEmpresaRepository', useClass: EmpresaRepository },
-    { provide: 'ITransferenciaRepository', useClass: TransferenciaRepository },
+    CompanyService,
+    TransferService,
+    CompanyRepository,
+    TransferRepository,
+    { provide: 'ICompanyRepository', useClass: CompanyRepository },
+    { provide: 'ITransferRepository', useClass: TransferRepository },
   ],
 })
 export class AppModule {}

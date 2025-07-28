@@ -1,13 +1,13 @@
 import { IsUUID, IsNumber, IsOptional, IsDateString } from 'class-validator';
 
-export class CreateTransferenciaDto {
+export class CreateTransferDto {
   @IsUUID()
-  empresa_id: string;
+  company_id: string;
 
   @IsNumber()
-  monto: number;
+  amount: number;
 
   @IsOptional()
   @IsDateString()
-  fecha_transferencia?: string;
+  transfer_date?: string;
 }

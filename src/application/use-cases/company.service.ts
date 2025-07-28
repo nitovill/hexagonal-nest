@@ -1,0 +1,33 @@
+import { Injectable, Inject } from '@nestjs/common';
+import { ICompanyRepository } from '../../domain/company.repository';
+import { Company } from '../../domain/company.entity';
+import { CreateCompanyDto } from '../../infrastructure/controllers/dto/create-company.dto';
+
+@Injectable()
+export class CompanyService {
+  constructor(
+    @Inject('ICompanyRepository')
+    private readonly companyRepository: ICompanyRepository,
+  ) {}
+
+  async create(dto: CreateCompanyDto): Promise<Company> {
+    const company = new Company();
+    company.name = dto.name;
+    company.adhesion_date = dto.adhesion_date
+      ? new Date(dto.adhesion_date)
+      : new Date();
+    return this.companyRepository.create(company);
+  }
+
+  async findLastMonth(): Promise<Company[]> {
+    return this.companyRepository.findLastMonth();
+  }
+
+  async findWithTransfersLastMonth(): Promise<Company[]> {
+    return this.companyRepository.findWithTransfersLastMonth();
+  }
+
+  async softDeleteCompany(id: string): Promise<void> {
+    await this.companyRepository.softDelete(id);
+  }
+}

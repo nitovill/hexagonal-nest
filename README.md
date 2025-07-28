@@ -31,33 +31,33 @@ npm run start:dev
 
 ## Endpoints de la API
 
-### Empresa
+### Company
 
-- **POST /empresa**
+- **POST /company**
   - Crea una nueva empresa.
   - Body:
     ```json
     {
-      "nombre": "string", // requerido
-      "fecha_adhesion": "YYYY-MM-DD" // opcional
+      "name": "string", // requerido
+      "adhesion_date": "YYYY-MM-DD" // opcional
     }
     ```
 
-- **GET /empresa/last-month**
+- **GET /company/last-month**
   - Obtiene las empresas creadas en el último mes.
 
-- **GET /empresa/with-transferencias-last-month**
+- **GET /company/with-transfers-last-month**
   - Obtiene las empresas con transferencias en el último mes.
 
-### Transferencia
+### Transfer
 
-- **POST /transferencia**
+- **POST /transfer**
   - Crea una nueva transferencia.
   - Body:
     ```json
     {
-      "empresa_id": "uuid", // requerido
-      "monto": 1000, // requerido
-      "fecha_transferencia": "YYYY-MM-DD" // opcional
+      "company_id": "uuid", // requerido
+      "amount": 1000, // requerido
+      "transfer_date": "YYYY-MM-DD" // opcional
     }
     ```

@@ -1,10 +1,10 @@
 import { IsOptional, IsString, IsDateString } from 'class-validator';
 
-export class CreateEmpresaDto {
+export class CreateCompanyDto {
   @IsString()
-  nombre: string;
+  name: string;
 
   @IsOptional()
   @IsDateString()
-  fecha_adhesion?: string;
+  adhesion_date?: string;
 }

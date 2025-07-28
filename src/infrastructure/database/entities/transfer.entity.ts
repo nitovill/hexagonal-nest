@@ -5,20 +5,20 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Empresa } from './empresa.entity';
+import { Company } from './company.entity';
 
-@Entity('transferencia')
-export class Transferencia {
+@Entity('transfer')
+export class Transfer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Empresa)
-  @JoinColumn({ name: 'empresa_id' })
-  empresa: Empresa;
+  @ManyToOne(() => Company)
+  @JoinColumn({ name: 'company_id' })
+  company: Company;
 
   @Column({ type: 'decimal', precision: 15, scale: 2 })
-  monto: number;
+  amount: number;
 
   @Column({ type: 'timestamp' })
-  fecha_transferencia: Date;
+  transfer_date: Date;
 }
