@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  BadRequestException,
+} from '@nestjs/common';
 import { ITransferRepository } from '../../domain/transfer.repository';
 import { ICompanyRepository } from '../../domain/company.repository';
 import { Transfer } from '../../domain/transfer.entity';
@@ -14,6 +19,12 @@ export class TransferService {
   ) {}
 
   async create(dto: CreateTransferDto): Promise<Transfer> {
+    if (dto.amount <= 0) {
+      throw new BadRequestException(
+        'Transfer amount must be greater than zero',
+      );
+    }
+
     const company = await this.companyRepository.findById(dto.company_id);
     if (!company) {
       throw new NotFoundException(
