@@ -1,4 +1,14 @@
-import { Controller, Post, Body, Get, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
+import { Response } from 'express';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { CompanyService } from '../application/company.service';
 import { Company } from '../domain/company.entity';
@@ -13,13 +23,23 @@ export class CompanyController {
   }
 
   @Get('last-month')
-  async findLastMonth(): Promise<Company[]> {
-    return this.companyService.findLastMonth();
+  async findLastMonth(@Res() res: Response): Promise<void> {
+    const companies = await this.companyService.findLastMonth();
+    if (companies.length === 0) {
+      res.status(HttpStatus.NO_CONTENT).send();
+      return;
+    }
+    res.status(HttpStatus.OK).json(companies);
   }
 
   @Get('with-transfers-last-month')
-  async findWithTransfersLastMonth(): Promise<Company[]> {
-    return this.companyService.findWithTransfersLastMonth();
+  async findWithTransfersLastMonth(@Res() res: Response): Promise<void> {
+    const companies = await this.companyService.findWithTransfersLastMonth();
+    if (companies.length === 0) {
+      res.status(HttpStatus.NO_CONTENT).send();
+      return;
+    }
+    res.status(HttpStatus.OK).json(companies);
   }
 
   @Delete(':id')

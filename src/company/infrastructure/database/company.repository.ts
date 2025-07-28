@@ -53,7 +53,7 @@ export class CompanyRepository implements ICompanyRepository {
     );
 
     const companies = await this.companyRepo.find({
-      where: { adhesion_date: MoreThanOrEqual(lastMonth) },
+      where: { adhesion_date: MoreThanOrEqual(lastMonth), deletedAt: IsNull() },
       order: { adhesion_date: 'DESC' },
       relations: ['transfers'],
     });
@@ -72,6 +72,7 @@ export class CompanyRepository implements ICompanyRepository {
       .createQueryBuilder('company')
       .innerJoinAndSelect('company.transfers', 'transfer')
       .where('transfer.transfer_date >= :lastMonth', { lastMonth })
+      .andWhere('company.deletedAt IS NULL')
       .getMany();
     return companies.map((comp) => this.toDomain(comp));
   }
