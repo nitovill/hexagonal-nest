@@ -4,6 +4,6 @@ export class Company {
   id: string;
   name: string;
   adhesion_date: Date;
-  isActive: boolean;
+  deletedAt?: Date;
   transfers?: Transfer[];
 }

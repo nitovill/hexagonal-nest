@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, IsNull } from 'typeorm';
 import { Company as CompanyORM } from './company.entity';
 import { ICompanyRepository } from '../../domain/company.repository';
 import { Company as CompanyDomain } from '../../domain/company.entity';
@@ -17,7 +17,7 @@ export class CompanyRepository implements ICompanyRepository {
       id: company.id,
       name: company.name,
       adhesion_date: company.adhesion_date,
-      isActive: company.isActive,
+      deletedAt: company.deletedAt,
       transfers:
         company.transfers?.map((t) => ({
           id: t.id,
@@ -33,7 +33,7 @@ export class CompanyRepository implements ICompanyRepository {
     orm.id = company.id;
     orm.name = company.name;
     orm.adhesion_date = company.adhesion_date;
-    orm.isActive = company.isActive;
+    orm.deletedAt = company.deletedAt;
     // transfers se ignora en create/update
     return orm;
   }
@@ -78,7 +78,7 @@ export class CompanyRepository implements ICompanyRepository {
 
   async findById(id: string): Promise<CompanyDomain | null> {
     const company = await this.companyRepo.findOne({
-      where: { id, isActive: true },
+      where: { id, deletedAt: IsNull() },
     });
     return company ? this.toDomain(company) : null;
   }
@@ -91,6 +91,11 @@ export class CompanyRepository implements ICompanyRepository {
   }
 
   async softDelete(id: string): Promise<void> {
-    await this.companyRepo.update({ id }, { isActive: false });
+    const company = await this.companyRepo.findOne({
+      where: { id },
+    });
+    if (company) {
+      await this.companyRepo.softRemove(company);
+    }
   }
 }
